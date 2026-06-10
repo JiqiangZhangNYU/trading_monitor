@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ablation — equal_oos</title><style>
+    body{font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+         margin:0;background:#f5f6f8;color:#1a1a1a}
+    header{background:#1f2937;color:#fff;padding:18px 28px;position:sticky;top:0;
+           z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+    header h1{margin:0;font-size:20px} header .sub{opacity:.75;font-size:13px;
+           margin-top:4px}
+    nav.toc{background:#374151;color:#fff;padding:10px 28px;font-size:13px}
+    nav.toc a{color:#93c5fd;text-decoration:none;margin-right:14px}
+    main{padding:24px 28px;max-width:1400px;margin:0 auto}
+    section{margin-bottom:40px}
+    h2{border-bottom:2px solid #1f2937;padding-bottom:6px;font-size:18px}
+    .card{background:#fff;border-radius:8px;padding:14px;margin:16px 0;
+          box-shadow:0 1px 4px rgba(0,0,0,.08)}
+    .card h3{margin:0 0 10px;font-size:15px;color:#374151}
+    .card img{width:100%;height:auto;border-radius:4px;cursor:zoom-in}
+    table{border-collapse:collapse;width:100%;font-size:13px;background:#fff}
+    th,td{border:1px solid #e5e7eb;padding:6px 10px;text-align:right}
+    th{background:#1f2937;color:#fff;position:sticky}
+    td:first-child,th:first-child{text-align:left}
+    tbody tr:nth-child(even){background:#f9fafb}
+    .symnav{font-size:13px;line-height:1.9;background:#fff;padding:12px 16px;
+            border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+    .symnav a{color:#2563eb;text-decoration:none;margin-right:6px}
+    .lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);
+              z-index:100;cursor:zoom-out;align-items:center;justify-content:center}
+    .lightbox img{max-width:96vw;max-height:96vh}
+    </style></head>
+<body>
+<header>
+  <h1>组合优化逐级 ablation — equal_oos</h1>
+  <div class="sub">回测窗口 2025-12-18 ~ 2026-04-21 · N=80 ·
+       10 级 (L0_raw → L9_chronic_step) · 57 个品种</div>
+</header>
+<nav class="toc">
+  <a href="#metrics">指标总表</a>
+  <a href="#steps">逐级 2×2 图</a>
+  <a href="#symbols">单品种仓位变化</a>
+</nav>
+<main>
+  <section id="metrics">
+    <h2>1 · 各级指标 & 每级 Δ</h2>
+    <div class="card"><h3>summary (每级绝对指标)</h3><table><thead><tr><th>config</th><th>Sh</th><th>NP</th><th>DD</th><th>Calmar</th><th>turnover</th><th>contra_share</th></tr></thead><tbody><tr><td>L0_raw</td><td>2.8572</td><td>0.0502</td><td>-0.0206</td><td>2.4350</td><td>0.0642</td><td>0.4562</td></tr><tr><td>L1_min_opt</td><td>2.7073</td><td>0.0497</td><td>-0.0229</td><td>2.1745</td><td>0.0739</td><td>0.4512</td></tr><tr><td>L2_tur_penalty</td><td>2.4507</td><td>0.0460</td><td>-0.0240</td><td>1.9202</td><td>0.0333</td><td>0.4549</td></tr><tr><td>L3_asset_cap</td><td>2.7754</td><td>0.0456</td><td>-0.0188</td><td>2.4314</td><td>0.0346</td><td>0.4551</td></tr><tr><td>L4_gacha_t</td><td>2.7641</td><td>0.0458</td><td>-0.0190</td><td>2.4077</td><td>0.0349</td><td>0.4552</td></tr><tr><td>L5_Beta_t</td><td>4.2313</td><td>0.0673</td><td>-0.0156</td><td>4.3258</td><td>0.0368</td><td>0.4516</td></tr><tr><td>L6_sector_rc</td><td>4.2625</td><td>0.0680</td><td>-0.0156</td><td>4.3672</td><td>0.0370</td><td>0.4515</td></tr><tr><td>L7_RV_scaling</td><td>4.7260</td><td>0.0693</td><td>-0.0116</td><td>5.9509</td><td>0.0409</td><td>0.4499</td></tr><tr><td>L8_DD_ctrl</td><td>4.7260</td><td>0.0693</td><td>-0.0116</td><td>5.9509</td><td>0.0409</td><td>0.4499</td></tr><tr><td>L9_chronic_step</td><td>4.6554</td><td>0.0750</td><td>-0.0126</td><td>5.9349</td><td>0.0568</td><td>0.4418</td></tr></tbody></table></div>
+    <div class="card"><h3>deltas (每级相对上一级)</h3><table><thead><tr><th>step</th><th>ΔSh</th><th>ΔNP</th><th>ΔDD</th><th>ΔCalmar</th><th>Δturnover</th><th>Δcontra</th></tr></thead><tbody><tr><td>L1_min_opt</td><td>-0.1500</td><td>-0.0005</td><td>-0.0023</td><td>-0.2600</td><td>0.0100</td><td>-0.0050</td></tr><tr><td>L2_tur_penalty</td><td>-0.2570</td><td>-0.0037</td><td>-0.0011</td><td>-0.2500</td><td>-0.0410</td><td>0.0040</td></tr><tr><td>L3_asset_cap</td><td>0.3250</td><td>-0.0004</td><td>0.0052</td><td>0.5100</td><td>0.0010</td><td>0.0000</td></tr><tr><td>L4_gacha_t</td><td>-0.0110</td><td>0.0002</td><td>-0.0002</td><td>-0.0200</td><td>0.0000</td><td>0.0000</td></tr><tr><td>L5_Beta_t</td><td>1.4670</td><td>0.0215</td><td>0.0034</td><td>1.9200</td><td>0.0020</td><td>-0.0040</td></tr><tr><td>L6_sector_rc</td><td>0.0310</td><td>0.0007</td><td>0.0000</td><td>0.0400</td><td>0.0000</td><td>-0.0000</td></tr><tr><td>L7_RV_scaling</td><td>0.4630</td><td>0.0013</td><td>0.0040</td><td>1.5800</td><td>0.0040</td><td>-0.0020</td></tr><tr><td>L8_DD_ctrl</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td><td>0.0000</td></tr><tr><td>L9_chronic_step</td><td>-0.0710</td><td>0.0057</td><td>-0.0010</td><td>-0.0200</td><td>0.0160</td><td>-0.0080</td></tr></tbody></table></div>
+  </section>
+  <section id="steps">
+    <h2>2 · 逐级 2×2 归因图</h2>
+    <div class="card"><h3>Step 1: L0_raw → L1_min_opt</h3><img src="01_L1_min_opt.png" loading="lazy"></div><div class="card"><h3>Step 2: L1_min_opt → L2_tur_penalty</h3><img src="02_L2_tur_penalty.png" loading="lazy"></div><div class="card"><h3>Step 3: L2_tur_penalty → L3_asset_cap</h3><img src="03_L3_asset_cap.png" loading="lazy"></div><div class="card"><h3>Step 4: L3_asset_cap → L4_gacha_t</h3><img src="04_L4_gacha_t.png" loading="lazy"></div><div class="card"><h3>Step 5: L4_gacha_t → L5_Beta_t</h3><img src="05_L5_Beta_t.png" loading="lazy"></div><div class="card"><h3>Step 6: L5_Beta_t → L6_sector_rc</h3><img src="06_L6_sector_rc.png" loading="lazy"></div><div class="card"><h3>Step 7: L6_sector_rc → L7_RV_scaling</h3><img src="07_L7_RV_scaling.png" loading="lazy"></div><div class="card"><h3>Step 8: L7_RV_scaling → L8_DD_ctrl</h3><img src="08_L8_DD_ctrl.png" loading="lazy"></div><div class="card"><h3>Step 9: L8_DD_ctrl → L9_chronic_step</h3><img src="09_L9_chronic_step.png" loading="lazy"></div>
+  </section>
+  <section id="symbols">
+    <h2>3 · 单品种仓位变化 (按受影响程度排序)</h2>
+    <div class="symnav">跳转: <a href="#sym-AU">AU</a> · <a href="#sym-AG">AG</a> · <a href="#sym-CS">CS</a> · <a href="#sym-SR">SR</a> · <a href="#sym-V">V</a> · <a href="#sym-C">C</a> · <a href="#sym-BR">BR</a> · <a href="#sym-YY">YY</a> · <a href="#sym-EG">EG</a> · <a href="#sym-PP">PP</a> · <a href="#sym-I">I</a> · <a href="#sym-RB">RB</a> · <a href="#sym-OI">OI</a> · <a href="#sym-NR">NR</a> · <a href="#sym-JM">JM</a> · <a href="#sym-EB">EB</a> · <a href="#sym-RU">RU</a> · <a href="#sym-LC">LC</a> · <a href="#sym-SN">SN</a> · <a href="#sym-FU">FU</a> · <a href="#sym-SA">SA</a> · <a href="#sym-CF">CF</a> · <a href="#sym-NI">NI</a> · <a href="#sym-L">L</a> · <a href="#sym-CJ">CJ</a> · <a href="#sym-P">P</a> · <a href="#sym-PB">PB</a> · <a href="#sym-SF">SF</a> · <a href="#sym-HC">HC</a> · <a href="#sym-B">B</a> · <a href="#sym-J">J</a> · <a href="#sym-CU">CU</a> · <a href="#sym-FG">FG</a> · <a href="#sym-LU">LU</a> · <a href="#sym-PK">PK</a> · <a href="#sym-MA">MA</a> · <a href="#sym-AP">AP</a> · <a href="#sym-SH">SH</a> · <a href="#sym-TA">TA</a> · <a href="#sym-RM">RM</a> · <a href="#sym-SM">SM</a> · <a href="#sym-AL">AL</a> · <a href="#sym-AO">AO</a> · <a href="#sym-SP">SP</a> · <a href="#sym-JD">JD</a> · <a href="#sym-ZN">ZN</a> · <a href="#sym-SS">SS</a> · <a href="#sym-PF">PF</a> · <a href="#sym-PX">PX</a> · <a href="#sym-SI">SI</a> · <a href="#sym-SC">SC</a> · <a href="#sym-BU">BU</a> · <a href="#sym-PG">PG</a> · <a href="#sym-M">M</a> · <a href="#sym-UR">UR</a> · <a href="#sym-A">A</a> · <a href="#sym-LH">LH</a></div>
+    <div class="card" id="sym-AU"><h3>AU</h3><img src="symbols/AU.png" loading="lazy"></div><div class="card" id="sym-AG"><h3>AG</h3><img src="symbols/AG.png" loading="lazy"></div><div class="card" id="sym-CS"><h3>CS</h3><img src="symbols/CS.png" loading="lazy"></div><div class="card" id="sym-SR"><h3>SR</h3><img src="symbols/SR.png" loading="lazy"></div><div class="card" id="sym-V"><h3>V</h3><img src="symbols/V.png" loading="lazy"></div><div class="card" id="sym-C"><h3>C</h3><img src="symbols/C.png" loading="lazy"></div><div class="card" id="sym-BR"><h3>BR</h3><img src="symbols/BR.png" loading="lazy"></div><div class="card" id="sym-YY"><h3>YY</h3><img src="symbols/YY.png" loading="lazy"></div><div class="card" id="sym-EG"><h3>EG</h3><img src="symbols/EG.png" loading="lazy"></div><div class="card" id="sym-PP"><h3>PP</h3><img src="symbols/PP.png" loading="lazy"></div><div class="card" id="sym-I"><h3>I</h3><img src="symbols/I.png" loading="lazy"></div><div class="card" id="sym-RB"><h3>RB</h3><img src="symbols/RB.png" loading="lazy"></div><div class="card" id="sym-OI"><h3>OI</h3><img src="symbols/OI.png" loading="lazy"></div><div class="card" id="sym-NR"><h3>NR</h3><img src="symbols/NR.png" loading="lazy"></div><div class="card" id="sym-JM"><h3>JM</h3><img src="symbols/JM.png" loading="lazy"></div><div class="card" id="sym-EB"><h3>EB</h3><img src="symbols/EB.png" loading="lazy"></div><div class="card" id="sym-RU"><h3>RU</h3><img src="symbols/RU.png" loading="lazy"></div><div class="card" id="sym-LC"><h3>LC</h3><img src="symbols/LC.png" loading="lazy"></div><div class="card" id="sym-SN"><h3>SN</h3><img src="symbols/SN.png" loading="lazy"></div><div class="card" id="sym-FU"><h3>FU</h3><img src="symbols/FU.png" loading="lazy"></div><div class="card" id="sym-SA"><h3>SA</h3><img src="symbols/SA.png" loading="lazy"></div><div class="card" id="sym-CF"><h3>CF</h3><img src="symbols/CF.png" loading="lazy"></div><div class="card" id="sym-NI"><h3>NI</h3><img src="symbols/NI.png" loading="lazy"></div><div class="card" id="sym-L"><h3>L</h3><img src="symbols/L.png" loading="lazy"></div><div class="card" id="sym-CJ"><h3>CJ</h3><img src="symbols/CJ.png" loading="lazy"></div><div class="card" id="sym-P"><h3>P</h3><img src="symbols/P.png" loading="lazy"></div><div class="card" id="sym-PB"><h3>PB</h3><img src="symbols/PB.png" loading="lazy"></div><div class="card" id="sym-SF"><h3>SF</h3><img src="symbols/SF.png" loading="lazy"></div><div class="card" id="sym-HC"><h3>HC</h3><img src="symbols/HC.png" loading="lazy"></div><div class="card" id="sym-B"><h3>B</h3><img src="symbols/B.png" loading="lazy"></div><div class="card" id="sym-J"><h3>J</h3><img src="symbols/J.png" loading="lazy"></div><div class="card" id="sym-CU"><h3>CU</h3><img src="symbols/CU.png" loading="lazy"></div><div class="card" id="sym-FG"><h3>FG</h3><img src="symbols/FG.png" loading="lazy"></div><div class="card" id="sym-LU"><h3>LU</h3><img src="symbols/LU.png" loading="lazy"></div><div class="card" id="sym-PK"><h3>PK</h3><img src="symbols/PK.png" loading="lazy"></div><div class="card" id="sym-MA"><h3>MA</h3><img src="symbols/MA.png" loading="lazy"></div><div class="card" id="sym-AP"><h3>AP</h3><img src="symbols/AP.png" loading="lazy"></div><div class="card" id="sym-SH"><h3>SH</h3><img src="symbols/SH.png" loading="lazy"></div><div class="card" id="sym-TA"><h3>TA</h3><img src="symbols/TA.png" loading="lazy"></div><div class="card" id="sym-RM"><h3>RM</h3><img src="symbols/RM.png" loading="lazy"></div><div class="card" id="sym-SM"><h3>SM</h3><img src="symbols/SM.png" loading="lazy"></div><div class="card" id="sym-AL"><h3>AL</h3><img src="symbols/AL.png" loading="lazy"></div><div class="card" id="sym-AO"><h3>AO</h3><img src="symbols/AO.png" loading="lazy"></div><div class="card" id="sym-SP"><h3>SP</h3><img src="symbols/SP.png" loading="lazy"></div><div class="card" id="sym-JD"><h3>JD</h3><img src="symbols/JD.png" loading="lazy"></div><div class="card" id="sym-ZN"><h3>ZN</h3><img src="symbols/ZN.png" loading="lazy"></div><div class="card" id="sym-SS"><h3>SS</h3><img src="symbols/SS.png" loading="lazy"></div><div class="card" id="sym-PF"><h3>PF</h3><img src="symbols/PF.png" loading="lazy"></div><div class="card" id="sym-PX"><h3>PX</h3><img src="symbols/PX.png" loading="lazy"></div><div class="card" id="sym-SI"><h3>SI</h3><img src="symbols/SI.png" loading="lazy"></div><div class="card" id="sym-SC"><h3>SC</h3><img src="symbols/SC.png" loading="lazy"></div><div class="card" id="sym-BU"><h3>BU</h3><img src="symbols/BU.png" loading="lazy"></div><div class="card" id="sym-PG"><h3>PG</h3><img src="symbols/PG.png" loading="lazy"></div><div class="card" id="sym-M"><h3>M</h3><img src="symbols/M.png" loading="lazy"></div><div class="card" id="sym-UR"><h3>UR</h3><img src="symbols/UR.png" loading="lazy"></div><div class="card" id="sym-A"><h3>A</h3><img src="symbols/A.png" loading="lazy"></div><div class="card" id="sym-LH"><h3>LH</h3><img src="symbols/LH.png" loading="lazy"></div>
+  </section>
+</main>
+<div class="lightbox" id="lb"><img id="lbimg" src=""></div>
+<script>
+    document.addEventListener('click',function(e){
+      if(e.target.tagName==='IMG'&&e.target.closest('.card')){
+        var lb=document.getElementById('lb');
+        document.getElementById('lbimg').src=e.target.src;
+        lb.style.display='flex';
+      }
+    });
+    document.getElementById('lb').addEventListener('click',function(){
+      this.style.display='none';
+    });
+    </script>
+</body></html>
